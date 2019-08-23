@@ -29,28 +29,39 @@ class Paco {
     this.y = y;
     this.width = 130;
     this.height = 218;
-    this.image = new Image();
-    this.image.src = "/img/pacoSprite/paco_normal.png";
+    // Static
+    /*this.image = new Image();
+    this.image.src = "/img/pacoSprite/paco_normal.png";*/
+    // Running forward
+    this.image1 = new Image();
+    this.image1.src = "/img/pacoSprite/paco_run_left_1.png";
+    this.image2 = new Image();
+    this.image2.src = "/img/pacoSprite/paco_run_right_1.png";
+    this.imageRun = this.image1;
+    // Running backwards
+    /*this.image3 = new Image();
+    this.image3.src = "/img/pacoSprite/paco_run_left_1.png";
+    this.image4 = new Image();
+    this.image4.src = "/img/pacoSprite/paco_run_right_1.png";
+    this.imageRun = this.image1;*/
   }
 
   draw() {
-    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    if (frames % 10 === 0) {
+      this.imageRun = this.imageRun == this.image1 ? this.image2 : this.image1;
+    }
+    ctx.drawImage(this.imageRun, this.x, this.y, this.width, this.height);
   }
 }
 
-const paco = new Paco(80, 200);
+const paco = new Paco(80, 400);
 
 /* Functions */
-function generateGame() {
+setInterval(function() {
   frames++;
+  ctx.clearRect(0, 0, 256, 256);
   paco.draw();
-}
-
-function startGame() {
-  interval = setInterval(generateGame, 1000 / 60);
-}
-
-startGame();
+}, 1000 / 60);
 
 /*
 class Enemy {
