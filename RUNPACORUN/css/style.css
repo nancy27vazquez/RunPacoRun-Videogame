@@ -1,3 +1,55 @@
-canvas {
-  border: 2px solid red;
+body{
+  background: url('/img/pattern.svg') #022737;
+}
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Caveat Brush', cursive;
+  color: #f4b606;
+}
+p{
+  font-family: 'Rancho', cursive;
+  color: white;
+}
+header{
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+header img{
+  height: 150px;
+}
+canvas{
+  border-radius: 20px;
+  border: 10px solid #022737;
+  box-shadow: 0px 0px 20px rgba(0,0,0,0.6);
+  position: absolute;
+  bottom: 100px;
+}
+.container{
+  max-width: 1300px; 
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Index section styles */
+.index img{
+  width: 550px;
+  margin-top: 10%;
+  height: auto;
+}
+#start{
+  background: url('/img/start-bg.svg') center center no-repeat;
+  font-size: 3em;
+  margin-top: 10%;
+}
+
+/* Instructions section styles */
+.instructions{
+
+}
+#goToGame{
+
 }

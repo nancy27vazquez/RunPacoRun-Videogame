@@ -101,7 +101,7 @@ class Background {
     this.height = canvas.height;
     this.image = new Image();
     this.image.src =
-      "https://www.dondeir.com/wp-content/uploads/2018/01/tacos-baratos-7.jpg";
+      "/img/back.png";
   }
   draw() {
     this.x--;
