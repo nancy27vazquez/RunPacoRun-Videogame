@@ -1,0 +1,15 @@
+Imprimir y actualizar el score conforme avance
+Imprimir cuchillos aleatorios en y
+Girar cuchillos
+Crear plataforma para salto
+Imprimir cuchillos cada x tiempo
+Poner un tope de posición en x/y para paco
+Conectar pantallas
+pantalla de perdiste
+info de tu score final
+Click para volver a jugar
+
+----
+
+crear clase piña
+x, y

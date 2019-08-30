@@ -1,31 +1,36 @@
-body{
-  background: url('/img/pattern.svg') #022737;
+body {
+  background: url("/img/pattern.svg") #022737;
 }
-h1, h2, h3, h4, h5, h6{
-  font-family: 'Caveat Brush', cursive;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Caveat Brush", cursive;
   color: #f4b606;
 }
-p{
-  font-family: 'Rancho', cursive;
+p {
+  font-family: "Rancho", cursive;
   color: white;
 }
-header{
+header {
   display: flex;
   justify-content: center;
   padding: 20px;
 }
-header img{
-  height: 150px;
+header img {
+  height: 80px;
 }
-canvas{
+canvas {
   border-radius: 20px;
-  border: 10px solid #022737;
-  box-shadow: 0px 0px 20px rgba(0,0,0,0.6);
-  position: absolute;
-  bottom: 100px;
+  border: 6px solid #022737;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
+  margin-top: 20px;
+  width: 60%;
 }
-.container{
-  max-width: 1300px; 
+.container {
+  max-width: 1300px;
   text-align: center;
   margin: 0 auto;
   display: flex;
@@ -35,21 +40,43 @@ canvas{
 }
 
 /* Index section styles */
-.index img{
+.index img {
   width: 550px;
   margin-top: 10%;
   height: auto;
 }
-#start{
-  background: url('/img/start-bg.svg') center center no-repeat;
+#start {
+  background: url("/img/start-bg.svg") center center no-repeat;
   font-size: 3em;
   margin-top: 10%;
 }
 
 /* Instructions section styles */
-.instructions{
-
+.instructions {
 }
-#goToGame{
+#goToGame {
+}
 
+/* Game section styles */
+#restart {
+  padding: 10px 40px;
+  border-radius: 15px;
+  border: 4px solid yellow;
+  font-size: 20px;
+  background: red;
+  color: white;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
+}
+.instructions {
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+  padding: 30px;
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+.pressKey {
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
+  width: 30px;
 }

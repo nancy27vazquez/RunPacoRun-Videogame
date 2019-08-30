@@ -8,18 +8,27 @@
     <!-- Stylesheet-->
     <link rel="stylesheet" href="/css/style.css" />
     <!-- Font Styles -->
-    <link href="https://fonts.googleapis.com/css?family=Caveat+Brush|Rancho&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Caveat+Brush|Rancho&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header>
-        <img src="/img/logo.svg" alt="Run Paco, run">
+      <img src="/img/logo.svg" alt="Run Paco, run" />
     </header>
-    <section class="container">
-      <canvas id="canvas" width="900" height="506"></canvas>
+    <section class="container canvasContainer">
+      <canvas id="canvas" width="900" height="500"></canvas>
     </section>
-      
+
+    <!--<button id="restart">Play again</button>-->
+
+    <p class="instructions">
+      Press
+      <img src="/img/key-r.png" alt="r" class="pressKey" />
+      to reset the game.
+    </p>
     <!-- Script -->
     <script src="/js/main.js"></script>
   </body>
 </html>
-
