@@ -9,6 +9,7 @@ let score = 0;
 let interval;
 let loser = new Image();
 loser.src = "/img/loser.png";
+let pineapple = [];
 
 /* Audio & Effects */
 let audio = new Audio();
@@ -71,7 +72,24 @@ class Paco {
   }
 }
 
-const paco = new Paco(80, 300);
+const paco = new Paco(80, 320);
+
+class Weapon {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.width = 30;
+    this.height = 30;
+    this.image = new Image();
+    this.image.src = "/img/pineapple.png";
+  }
+}
+
+const weapon = new Weapon(100, 100);
+
+class Armour {
+  constructor() {}
+}
 
 class Enemy {
   constructor(y) {
@@ -174,7 +192,7 @@ function gameOver() {
 function reset() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   paco.x = 30;
-  paco.y = 300;
+  paco.y = 320;
   audio.currentTime = 0;
   enemies = [];
   interval = undefined;
@@ -196,4 +214,5 @@ addEventListener("keydown", function(event) {
     console.log("presionaste r");
   }
 });
+
 start();
