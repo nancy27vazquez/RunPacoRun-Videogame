@@ -99,9 +99,11 @@ class Enemy {
     this.height = 70;
     this.image = new Image();
     this.image.src = "/img/knife.png";
+    this.angle = rand(0, 360);
+    this.speed = rand(3, 4);
   }
   draw() {
-    if (frames % 20) this.x -= 5;
+    if (frames % 60) this.x -= 8;
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 }
@@ -128,6 +130,7 @@ class Background {
     this.height = canvas.height;
     this.image = new Image();
     this.image.src = "/img/back.png";
+    this.score = 0;
   }
   draw() {
     this.x--;
@@ -156,6 +159,9 @@ function start() {
     paco.draw();
     generateEnemies();
     drawEnemies();
+    if (frames % 20 == 0) {
+      printScore();
+    }
   }, 1000 / 60);
 }
 function generateEnemies() {
@@ -183,14 +189,14 @@ function drawEnemies() {
 }
 function gameOver() {
   clearInterval(interval);
-  ctx.drawImage(loser, 200, 50, 500, 322);
-  ctx.font = "40px Arial";
-  ctx.fillStyle = "white";
-  ctx.fillText("Final score: xxxx", 310, 380);
+  ctx.drawImage(loser, 200, 100, 500, 322);
+  //ctx.font = "60px Impact";
+  //ctx.fillStyle = "white";
+  //ctx.fillText(score, 310, 380);
 }
-
 function reset() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  score = 0;
   paco.x = 30;
   paco.y = 320;
   audio.currentTime = 0;
@@ -198,6 +204,16 @@ function reset() {
   interval = undefined;
   start();
 }
+function printScore() {
+  score++;
+  let i = document.getElementById("printScore");
+  i.innerHTML = score;
+}
+
+function rand(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 /* Events */
 addEventListener("keydown", function(event) {
   if (event.keyCode === 38) {

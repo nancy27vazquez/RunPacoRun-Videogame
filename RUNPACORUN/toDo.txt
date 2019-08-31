@@ -1,5 +1,3 @@
-Imprimir y actualizar el score conforme avance
-Imprimir cuchillos aleatorios en y
 Girar cuchillos
 Crear plataforma para salto
 Imprimir cuchillos cada x tiempo

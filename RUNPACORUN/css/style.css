@@ -1,5 +1,6 @@
 body {
   background: url("/img/pattern.svg") #022737;
+  margin: 0px;
 }
 h1,
 h2,
@@ -16,17 +17,25 @@ p {
 }
 header {
   display: flex;
-  justify-content: center;
-  padding: 20px;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  width: 70%;
+  margin: 0 auto;
 }
 header img {
   height: 80px;
+}
+#weapons img,
+#score img {
+  width: 50px;
+  height: 50px;
 }
 canvas {
   border-radius: 20px;
   border: 6px solid #022737;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
-  margin-top: 20px;
+  margin-top: 0px;
   width: 60%;
 }
 .container {
