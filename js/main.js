@@ -5,6 +5,9 @@ var ctx = canvas.getContext("2d");
 let frames = 0;
 let gravity = 0.6;
 let enemies = [];
+let weapons = [];
+let bullets = [];
+let countBullets = 0;
 let score = 0;
 let interval;
 let loser = new Image();
@@ -75,20 +78,20 @@ class Paco {
 const paco = new Paco(80, 320);
 
 class Weapon {
-  constructor(x, y) {
+  constructor(x, y, isBullet) {
     this.x = x;
-    this.y = y;
-    this.width = 30;
-    this.height = 30;
+    this.y = isBullet ? y : 2;
+    this.width = 130;
+    this.height = 130;
     this.image = new Image();
     this.image.src = "./img/pineapple.png";
+    this.isBullets = isBullet;
   }
-}
-
-const weapon = new Weapon(100, 100);
-
-class Armour {
-  constructor() {}
+  draw() {
+    if (frames % 9 === 0 && this.isBullets === false) this.y += 50;
+    if (this.isBullets) this.x += 10;
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+  }
 }
 
 class Enemy {
@@ -105,6 +108,14 @@ class Enemy {
   draw() {
     if (frames % 60) this.x -= 8;
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+  }
+  collision(item) {
+    return (
+      this.x < item.x + item.width &&
+      this.x + this.width > item.x &&
+      this.y < item.y + item.height &&
+      this.y + this.height > item.y
+    );
   }
 }
 
@@ -152,20 +163,59 @@ const back = new Background(canvas.width, canvas.height);
 
 /* Functions */
 function start() {
+  if (countBullets == 0) {
+    countBullets = 3;
+  }
   interval = setInterval(function() {
     frames++;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     back.draw();
     paco.draw();
+    //weapon.draw();
+    paco.bullets = countBullets;
     generateEnemies();
     drawEnemies();
+    generateWeapons();
+    drawWeapons();
+    drawBullets();
     if (frames % 20 == 0) {
       printScore();
     }
+    if (paco.isShooting == true) {
+    }
   }, 1000 / 60);
 }
+
+function generateWeapons() {
+  if (frames % 180 == 0) {
+    let position = Math.floor(Math.random() * (canvas.width - 130));
+    var weapon = new Weapon(position, " ", false);
+    if (weapons.length <= 5) {
+      weapons.push(weapon);
+    }
+  }
+}
+
+function drawWeapons() {
+  // let noBullets = weapons.filter(
+  //   data => data.isBullet === false;
+  // )
+  weapons.forEach(function(weapon) {
+    if (weapon.y + weapon.height > canvas.height) {
+      weapons.splice(0, 1);
+    }
+    weapon.draw();
+
+    if (paco.collision(weapon)) {
+      weapons.splice(0, 1);
+      //bullets.push(new Weapon(paco.x, paco.y, true));
+      countBullets++;
+    }
+  });
+}
+
 function generateEnemies() {
-  if (frames % 100 == 0 || frames % 60 == 0 || frames % 170 == 0) {
+  if (frames % 120 == 0) {
     let randomPos = Math.floor(
       Math.random() * (canvas.height - 70 - 175) + 175
     );
@@ -176,7 +226,7 @@ function generateEnemies() {
 }
 
 function drawEnemies() {
-  enemies.forEach(function(enemy) {
+  enemies.forEach(function(enemy, iE) {
     if (enemy.x + enemy.width < 0) {
       enemies.splice(0, 1);
     }
@@ -185,8 +235,22 @@ function drawEnemies() {
       //console.log("Paco, te hicieron taco :(");
       gameOver();
     }
+    bullets.forEach(function(bullet, iB) {
+      if (bullet.x + bullet.width > canvas.width) {
+        bullets.splice(0, 1);
+      }
+      bullet.draw();
+      if (enemy.collision(bullet)) {
+        score = score * 2;
+        enemies.splice(iE, 1);
+        bullets.splice(iB, 1);
+      }
+    });
   });
 }
+
+function drawBullets() {}
+
 function gameOver() {
   clearInterval(interval);
   ctx.drawImage(loser, 200, 100, 500, 322);
@@ -202,12 +266,17 @@ function reset() {
   audio.currentTime = 0;
   enemies = [];
   interval = undefined;
+  bullets = [];
+  countBullets = 0;
   start();
 }
 function printScore() {
   score++;
   let i = document.getElementById("printScore");
   i.innerHTML = score;
+
+  let myWeapons = document.getElementById("bullets");
+  myWeapons.innerHTML = countBullets;
 }
 
 function rand(min, max) {
@@ -227,8 +296,18 @@ addEventListener("keydown", function(event) {
   }
   if (event.keyCode === 82) {
     reset();
+  }
+  if (event.keyCode === 32) {
     console.log("presionaste r");
+    if (countBullets !== 0) {
+      bullets.push(new Weapon(paco.x, paco.y, true));
+      countBullets--;
+    }
   }
 });
+
+// addEventListener ("keyup", function(event){
+//   if ()
+// })
 
 start();
