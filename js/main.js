@@ -8,7 +8,7 @@ let enemies = [];
 let score = 0;
 let interval;
 let loser = new Image();
-loser.src = "/img/loser.png";
+loser.src = "./img/loser.png";
 let pineapple = [];
 
 /* Audio & Effects */
@@ -41,18 +41,18 @@ class Paco {
     this.height = 190;
     // Static
     /*this.image = new Image();
-    this.image.src = "/img/pacoSprite/paco_normal.png";*/
+    this.image.src = "./img/pacoSprite/paco_normal.png";*/
     // Running forward
     this.image1 = new Image();
-    this.image1.src = "/img/pacoSprite/paco_run_left_1.png";
+    this.image1.src = "./img/pacoSprite/paco_run_left_1.png";
     this.image2 = new Image();
-    this.image2.src = "/img/pacoSprite/paco_run_right_1.png";
+    this.image2.src = "./img/pacoSprite/paco_run_right_1.png";
     this.imageRun = this.image1;
     // Running backwards
     /*this.image3 = new Image();
-    this.image3.src = "/img/pacoSprite/paco_run_left_1.png";
+    this.image3.src = "./img/pacoSprite/paco_run_left_1.png";
     this.image4 = new Image();
-    this.image4.src = "/img/pacoSprite/paco_run_right_1.png";
+    this.image4.src = "./img/pacoSprite/paco_run_right_1.png";
     this.imageRun = this.image1;*/
   }
   collision(item) {
@@ -81,7 +81,7 @@ class Weapon {
     this.width = 30;
     this.height = 30;
     this.image = new Image();
-    this.image.src = "/img/pineapple.png";
+    this.image.src = "./img/pineapple.png";
   }
 }
 
@@ -98,7 +98,7 @@ class Enemy {
     this.width = 70;
     this.height = 70;
     this.image = new Image();
-    this.image.src = "/img/knife.png";
+    this.image.src = "./img/knife.png";
     this.angle = rand(0, 360);
     this.speed = rand(3, 4);
   }
@@ -129,7 +129,7 @@ class Background {
     this.width = canvas.width;
     this.height = canvas.height;
     this.image = new Image();
-    this.image.src = "/img/back.png";
+    this.image.src = "./img/back.png";
     this.score = 0;
   }
   draw() {
