@@ -36,12 +36,14 @@ let audioWin = new Audio();
 audioWin.scr = "link here";*/
 
 /* Classes */
+
 class Paco {
   constructor(x, y) {
     this.x = x;
     this.y = y;
     this.width = 110;
     this.height = 190;
+    this.health = 100;
     // Static
     /*this.image = new Image();
     this.image.src = "./img/pacoSprite/paco_normal.png";*/
@@ -67,6 +69,17 @@ class Paco {
     );
   }
   draw() {
+    if (this.health <= 69 && this.health >= 40) {
+      this.image1.src = "http://pixelartmaker.com/art/56a259f1dae787c.png";
+      this.image2.src =
+        "http://orig11.deviantart.net/dc82/f/2009/364/7/b/classic_megaman_x_sprite_by_ravenisawesome.jpg";
+    }
+    if (paco.health <= 39 && paco.health >= 10) {
+      this.image1.src =
+        "https://www.pngfind.com/pngs/m/20-202320_mario-sprite-png-mario-8-bits-transparent-png.png";
+      this.image1.src =
+        "https://ih0.redbubble.net/image.386129052.8089/flat,550x550,075,f.u5.jpg";
+    }
     if (this.y < 300) this.y += 6;
     if (frames % 10 === 0) {
       this.imageRun = this.imageRun == this.image1 ? this.image2 : this.image1;
@@ -76,6 +89,8 @@ class Paco {
 }
 
 const paco = new Paco(80, 320);
+
+let getImage = () => {};
 
 class Weapon {
   constructor(x, y, isBullet) {
@@ -104,6 +119,7 @@ class Enemy {
     this.image.src = "./img/knife.png";
     this.angle = rand(0, 360);
     this.speed = rand(3, 4);
+    this.damage = 25;
   }
   draw() {
     if (frames % 60) this.x -= 8;
@@ -178,10 +194,12 @@ function start() {
     generateWeapons();
     drawWeapons();
     drawBullets();
+    getImage();
     if (frames % 20 == 0) {
       printScore();
     }
-    if (paco.isShooting == true) {
+    if (paco.health <= 0) {
+      gameOver();
     }
   }, 1000 / 60);
 }
@@ -210,12 +228,14 @@ function drawWeapons() {
       weapons.splice(0, 1);
       //bullets.push(new Weapon(paco.x, paco.y, true));
       countBullets++;
+      paco.health = paco.health + 10;
+      console.log(paco.health);
     }
   });
 }
 
 function generateEnemies() {
-  if (frames % 120 == 0) {
+  if (frames % 100 == 0) {
     let randomPos = Math.floor(
       Math.random() * (canvas.height - 70 - 175) + 175
     );
@@ -233,7 +253,14 @@ function drawEnemies() {
     enemy.draw();
     if (paco.collision(enemy)) {
       //console.log("Paco, te hicieron taco :(");
-      gameOver();
+      if (paco.health > 0) {
+        enemies.splice(iE, 1);
+        paco.health = paco.health - enemy.damage;
+        console.log(paco.health);
+      } else {
+        console.log("perdiste");
+        gameOver();
+      }
     }
     bullets.forEach(function(bullet, iB) {
       if (bullet.x + bullet.width > canvas.width) {
@@ -298,7 +325,6 @@ addEventListener("keydown", function(event) {
     reset();
   }
   if (event.keyCode === 32) {
-    console.log("presionaste r");
     if (countBullets !== 0) {
       bullets.push(new Weapon(paco.x, paco.y, true));
       countBullets--;
