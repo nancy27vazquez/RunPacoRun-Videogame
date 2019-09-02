@@ -1,5 +1,5 @@
 body {
-  background: url("/img/pattern.svg") #022737;
+  background: url("./img/pattern.svg") #022737;
   margin: 0px;
 }
 h1,
@@ -86,7 +86,7 @@ canvas {
   height: auto;
 }
 button, button a{
-  background: url("/img/start-bg.svg") center center no-repeat;
+  background: url("./img/start-bg.svg") center center no-repeat;
   font-size: 40px;
   border: none; 
   color: white;
