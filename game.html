@@ -15,15 +15,21 @@
   </head>
   <body>
     <header>
-      <h1 id="weapons">
+
+      <div id="weapons">
         <img src="./img/pineapple.png" />
-        <span id="bullets"></span>
-      </h1>
-      <img src="./img/logo.svg" alt="Run Paco, run" />
-      <h1 id="score">
-        <img src="./img/trophy.png" />
-        <span id="printScore"></span>
-      </h1>
+        <h1 id="bullets"></h1>
+      </div>
+
+      <div class="logo">
+        <img src="./img/logo.svg" alt="Run Paco, run" />
+      </div> 
+
+      <div id="score">
+        <img src="./img/scoreScreen.png" />
+        <h1 id="printScore"></h1>
+      </div>
+
     </header>
     <section class="container canvasContainer">
       <canvas id="canvas" width="900" height="500"></canvas>
@@ -32,9 +38,9 @@
     <!--<button id="restart">Play again</button>-->
 
     <p class="instructions">
-      Press
+      Presiona
       <img src="./img/key-r.png" alt="r" class="pressKey" />
-      to reset the game.
+      para comenzar de nuevo.
     </p>
     <!-- Script -->
     <script src="./js/main.js"></script>

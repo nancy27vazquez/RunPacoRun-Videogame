@@ -21,14 +21,16 @@ audio.src =
   "https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
 
 let audioIntro = new Audio();
-audio.loop = true;
-audio.src =
+audioIntro.loop = true;
+audioIntro.src =
   "https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
 
-/*
-let audioThrowWeapon = new Audio();
-audioThrowWeapon.src = "link here";
 
+let audioThrowWeapon = new Audio();
+audioIntro.loop = false;
+audioThrowWeapon.src = "./audio/throw.mp3";
+
+/*
 let audioDie = new Audio();
 audioDie.src = "link here";
 
@@ -44,14 +46,16 @@ class Paco {
     this.width = 110;
     this.height = 190;
     this.health = 100;
+    this.vy = 0;
+    this.userPull = 0;
     // Static
     /*this.image = new Image();
     this.image.src = "./img/pacoSprite/paco_normal.png";*/
     // Running forward
     this.image1 = new Image();
-    this.image1.src = "./img/pacoSprite/paco_run_left_1.png";
+    this.image1.src = "./img/pacoSprite/paco_1_left.png";
     this.image2 = new Image();
-    this.image2.src = "./img/pacoSprite/paco_run_right_1.png";
+    this.image2.src = "./img/pacoSprite/paco_1_right.png";
     this.imageRun = this.image1;
     // Running backwards
     /*this.image3 = new Image();
@@ -60,6 +64,11 @@ class Paco {
     this.image4.src = "./img/pacoSprite/paco_run_right_1.png";
     this.imageRun = this.image1;*/
   }
+  reset() {
+    this.vy = 2;
+    this.userPull = 0;
+  }
+
   collision(item) {
     return (
       this.x < item.x + item.width &&
@@ -69,16 +78,23 @@ class Paco {
     );
   }
   draw() {
+    this.vy = this.vy + (gravity - this.userPull);
+    if (this.y + this.vy < 0) {
+      this.y = 0;
+      this.vy = 0;
+    } 
     if (this.health <= 69 && this.health >= 40) {
-      this.image1.src = "http://pixelartmaker.com/art/56a259f1dae787c.png";
+      this.image1.src = "./img/pacoSprite/paco_2_left.png";
       this.image2.src =
-        "http://orig11.deviantart.net/dc82/f/2009/364/7/b/classic_megaman_x_sprite_by_ravenisawesome.jpg";
+        "./img/pacoSprite/paco_2_right.png";
+      this.width = 85;
     }
     if (paco.health <= 39 && paco.health >= 10) {
       this.image1.src =
-        "https://www.pngfind.com/pngs/m/20-202320_mario-sprite-png-mario-8-bits-transparent-png.png";
-      this.image1.src =
-        "https://ih0.redbubble.net/image.386129052.8089/flat,550x550,075,f.u5.jpg";
+        "./img/pacoSprite/paco_3_left.png";
+      this.image2.src =
+      "./img/pacoSprite/paco_3_right.png";
+      this.width = 74;
     }
     if (this.y < 300) this.y += 6;
     if (frames % 10 === 0) {
@@ -88,7 +104,7 @@ class Paco {
   }
 }
 
-const paco = new Paco(80, 320);
+const paco = new Paco(80, 310);
 
 let getImage = () => {};
 
@@ -96,8 +112,8 @@ class Weapon {
   constructor(x, y, isBullet) {
     this.x = x;
     this.y = isBullet ? y : 2;
-    this.width = 130;
-    this.height = 130;
+    this.width = 60;
+    this.height = 60;
     this.image = new Image();
     this.image.src = "./img/pineapple.png";
     this.isBullets = isBullet;
@@ -105,6 +121,7 @@ class Weapon {
   draw() {
     if (frames % 9 === 0 && this.isBullets === false) this.y += 50;
     if (this.isBullets) this.x += 10;
+    audioThrowWeapon.play();
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 }
@@ -113,8 +130,8 @@ class Enemy {
   constructor(y) {
     this.x = canvas.width;
     this.y = y;
-    this.width = 70;
-    this.height = 70;
+    this.width = 20;
+    this.height = 108;
     this.image = new Image();
     this.image.src = "./img/knife.png";
     this.angle = rand(0, 360);
@@ -179,6 +196,8 @@ const back = new Background(canvas.width, canvas.height);
 
 /* Functions */
 function start() {
+  audio.play();
+  audio.currentTime = 0;
   if (countBullets == 0) {
     countBullets = 3;
   }
@@ -237,7 +256,7 @@ function drawWeapons() {
 function generateEnemies() {
   if (frames % 100 == 0) {
     let randomPos = Math.floor(
-      Math.random() * (canvas.height - 70 - 175) + 175
+      Math.random() * (canvas.height - 100 - 175) + 175    
     );
 
     var enemy = new Enemy(randomPos);
@@ -268,7 +287,7 @@ function drawEnemies() {
       }
       bullet.draw();
       if (enemy.collision(bullet)) {
-        score = score * 2;
+        score = score + 2;
         enemies.splice(iE, 1);
         bullets.splice(iB, 1);
       }
@@ -279,8 +298,9 @@ function drawEnemies() {
 function drawBullets() {}
 
 function gameOver() {
+  audio.pause();
   clearInterval(interval);
-  ctx.drawImage(loser, 200, 100, 500, 322);
+  ctx.drawImage(loser, 200, 100, 500, 270);
   //ctx.font = "60px Impact";
   //ctx.fillStyle = "white";
   //ctx.fillText(score, 310, 380);
@@ -290,7 +310,7 @@ function reset() {
   score = 0;
   paco.x = 30;
   paco.y = 320;
-  audio.currentTime = 0;
+  audio.currentTime = 8;
   enemies = [];
   interval = undefined;
   bullets = [];
@@ -312,14 +332,36 @@ function rand(min, max) {
 
 /* Events */
 addEventListener("keydown", function(event) {
+  /*if (event.keyCode === 40) {
+    paco.x = paco.x - 5;
+    paco.image1.src = "./img/pacoSprite/paco_down_1.png";
+    paco.image2.src = "./img/pacoSprite/paco_down_2.png";
+    paco.height = 110;
+    paco.width = 90;  
+    paco.y = paco.y + 80;
+  }*/
+  if(event.keyCode === 38 && event.keyCode === 37){
+    paco.x = paco.x - 30;
+    paco.y  = paco.y - 30;
+  }
+
+  if(event.keyCode === 38 && event.keyCode === 39){
+    paco.x = paco.x + 30;
+    paco.y  = paco.y + 30;
+  }
+
+
   if (event.keyCode === 38) {
-    paco.y -= 190;
+    //aqui creo que va el user pull
+    paco.vy = 270; 
+    paco.y = paco.y - paco.vy;
+
   }
   if (event.keyCode === 39) {
-    paco.x += 15;
+    paco.x += 35;
   }
   if (event.keyCode === 37) {
-    paco.x -= 15;
+    paco.x -= 35;
   }
   if (event.keyCode === 82) {
     reset();
