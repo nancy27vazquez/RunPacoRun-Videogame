@@ -3,7 +3,7 @@ var ctx = canvas.getContext("2d");
 
 /* Generic variables*/
 let frames = 0;
-let gravity = 0.6;
+let gravity = 10.1;
 let enemies = [];
 let weapons = [];
 let bullets = [];
@@ -13,6 +13,10 @@ let interval;
 let loser = new Image();
 loser.src = "./img/loser.png";
 let pineapple = [];
+
+const sprite = {
+  enemyKnife: "./img/knife-sprite.png"
+};
 
 /* Audio & Effects */
 let audio = new Audio();
@@ -24,7 +28,6 @@ let audioIntro = new Audio();
 audioIntro.loop = true;
 audioIntro.src =
   "https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
-
 
 let audioThrowWeapon = new Audio();
 audioIntro.loop = false;
@@ -47,6 +50,7 @@ class Paco {
     this.height = 190;
     this.health = 100;
     this.vy = 0;
+    this.isJumping = false;
     this.userPull = 0;
     // Static
     /*this.image = new Image();
@@ -82,24 +86,24 @@ class Paco {
     if (this.y + this.vy < 0) {
       this.y = 0;
       this.vy = 0;
-    } 
+    }
     if (this.health <= 69 && this.health >= 40) {
       this.image1.src = "./img/pacoSprite/paco_2_left.png";
-      this.image2.src =
-        "./img/pacoSprite/paco_2_right.png";
+      this.image2.src = "./img/pacoSprite/paco_2_right.png";
       this.width = 85;
     }
     if (paco.health <= 39 && paco.health >= 10) {
-      this.image1.src =
-        "./img/pacoSprite/paco_3_left.png";
-      this.image2.src =
-      "./img/pacoSprite/paco_3_right.png";
+      this.image1.src = "./img/pacoSprite/paco_3_left.png";
+      this.image2.src = "./img/pacoSprite/paco_3_right.png";
       this.width = 74;
     }
     if (this.y < 300) this.y += 6;
     if (frames % 10 === 0) {
       this.imageRun = this.imageRun == this.image1 ? this.image2 : this.image1;
     }
+    if (this.y >= 300) {
+      this.isJumping = true;
+    } else this.isJumping = false;
     ctx.drawImage(this.imageRun, this.x, this.y, this.width, this.height);
   }
 }
@@ -132,15 +136,34 @@ class Enemy {
     this.y = y;
     this.width = 20;
     this.height = 108;
-    this.image = new Image();
-    this.image.src = "./img/knife.png";
-    this.angle = rand(0, 360);
-    this.speed = rand(3, 4);
+    //this.image = new Image();
+    //this.image.src = "./img/knife-sprite.png";
     this.damage = 25;
+
+    this.image = new Image();
+    this.image.src = sprite.enemyKnife;
+    this.sx = 0;
+    this.sy = 0;
+    this.sw = 67.7;
+    this.sh = 70;
   }
   draw() {
+    if (this.sx > 520) this.sx = 0;
     if (frames % 60) this.x -= 8;
-    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    ctx.drawImage(
+      this.image,
+      this.sx,
+      this.sy,
+      this.sw,
+      this.sh,
+      this.x,
+      this.y,
+      80,
+      80,
+      this.width,
+      this.height
+    );
+    if (frames % 3 === 0) this.sx += 67.7;
   }
   collision(item) {
     return (
@@ -214,6 +237,7 @@ function start() {
     drawWeapons();
     drawBullets();
     getImage();
+
     if (frames % 20 == 0) {
       printScore();
     }
@@ -256,7 +280,7 @@ function drawWeapons() {
 function generateEnemies() {
   if (frames % 100 == 0) {
     let randomPos = Math.floor(
-      Math.random() * (canvas.height - 100 - 175) + 175    
+      Math.random() * (canvas.height - 100 - 175) + 175
     );
 
     var enemy = new Enemy(randomPos);
@@ -340,28 +364,28 @@ addEventListener("keydown", function(event) {
     paco.width = 90;  
     paco.y = paco.y + 80;
   }*/
-  if(event.keyCode === 38 && event.keyCode === 37){
+  if (event.keyCode === 38 && event.keyCode === 37) {
     paco.x = paco.x - 30;
-    paco.y  = paco.y - 30;
+    paco.y = paco.y - 30;
   }
 
-  if(event.keyCode === 38 && event.keyCode === 39){
+  if (event.keyCode === 38 && event.keyCode === 39) {
     paco.x = paco.x + 30;
-    paco.y  = paco.y + 30;
+    paco.y = paco.y + 30;
   }
-
 
   if (event.keyCode === 38) {
     //aqui creo que va el user pull
-    paco.vy = 270; 
-    paco.y = paco.y - paco.vy;
-
+    if (paco.isJumping) {
+      paco.vy = 270;
+      paco.y = paco.y - paco.vy;
+    }
   }
   if (event.keyCode === 39) {
-    paco.x += 35;
+    if (paco.x + paco.width + 10 < canvas.width) paco.x += 35;
   }
   if (event.keyCode === 37) {
-    paco.x -= 35;
+    if (paco.x > 33) paco.x -= 35;
   }
   if (event.keyCode === 82) {
     reset();
@@ -377,5 +401,36 @@ addEventListener("keydown", function(event) {
 // addEventListener ("keyup", function(event){
 //   if ()
 // })
+class Character {
+  constructor() {
+    this.image = new Image();
+    this.image.src = sprite.enemyKnife;
+    this.x = 250;
+    this.y = 175;
+    this.sx = 0;
+    this.sy = 0;
+    this.sw = 67.7;
+    this.sh = 70;
+  }
+  draw() {
+    if (this.sx > 520) this.sx = 0;
+    ctx.drawImage(
+      this.image,
+      this.sx,
+      this.sy,
+      this.sw,
+      this.sh,
+      this.x,
+      this.y,
+      80,
+      80
+    );
+    if (frames % 3 === 0) this.sx += 67.7;
+  }
+}
+
+const newKnife = new Character();
 
 start();
+
+/*  ========= SPRITE ==================*/
