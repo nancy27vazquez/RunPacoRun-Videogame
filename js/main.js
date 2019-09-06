@@ -41,7 +41,7 @@ audio.loop = true;
 audioLoser.src = "./audio/loser.mp3";
 
 let audioWinner = new Audio();
-audio.loop = true;
+audio.loop = false;
 audioWinner.src = "./audio/winner.mp3";
 
 /* Classes */
@@ -444,6 +444,9 @@ addEventListener("keydown", function(event) {
     paco.width = 90;  
     paco.y = paco.y + 80;
   }*/
+  if (event.keyCode === 87) {
+    youWin();
+  }
   if (event.keyCode === 38 && event.keyCode === 37) {
     paco.x = paco.x - 30;
     paco.y = paco.y - 30;
