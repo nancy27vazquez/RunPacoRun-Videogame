@@ -33,15 +33,16 @@ audioIntro.loop = true;
 //"https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
 
 let audioThrowWeapon = new Audio();
-audioIntro.loop = false;
+audio.loop = false;
 audioThrowWeapon.src = "./audio/throw.mp3";
 
-/*
-let audioDie = new Audio();
-audioDie.src = "link here";
+let audioLoser = new Audio();
+audio.loop = true;
+audioLoser.src = "./audio/loser.mp3";
 
-let audioWin = new Audio();
-audioWin.scr = "link here";*/
+let audioWinner = new Audio();
+audio.loop = true;
+audioWinner.src = "./audio/winner.mp3";
 
 /* Classes */
 
@@ -90,7 +91,7 @@ class Paco {
       this.y = 0;
       this.vy = 0;
     }
-    if (this.health >= 100) {
+    if (this.health >= 110) {
       this.image1.src = "./img/key-up.png";
       this.image2.src = "./img/key-right.png";
       this.width = 85;
@@ -270,7 +271,7 @@ function start() {
     if (paco.health <= 0) {
       gameOver();
     }
-    if (score > 149) {
+    if (score > 120) {
       youWin();
     }
   }, 1000 / 60);
@@ -365,7 +366,7 @@ function drawEnemies() {
       }
       bullet.draw();
       if (enemy.collision(bullet)) {
-        score = score + 2;
+        score = score + 3;
         enemies.splice(iE, 1);
         bullets.splice(iB, 1);
       }
@@ -377,6 +378,7 @@ function drawBullets() {}
 
 function gameOver() {
   audio.pause();
+  audioLoser.play();
   clearInterval(interval);
   interval = undefined;
   ctx.drawImage(loser, 200, 100, 500, 270);
@@ -386,11 +388,15 @@ function gameOver() {
 }
 
 function youWin() {
+  audio.pause();
+  audioWinner.play();
   clearInterval(interval);
+  interval = undefined;
   ctx.drawImage(winner, 200, 100, 500, 270);
 }
 
 function reset() {
+  audioLoser.pause();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   score = 0;
   paco.x = 30;
