@@ -247,6 +247,7 @@ function start() {
   if (countBullets == 0) {
     countBullets = 3;
   }
+  console.log("askd");
   interval = setInterval(function() {
     frames++;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -377,6 +378,7 @@ function drawBullets() {}
 function gameOver() {
   //audio.pause();
   clearInterval(interval);
+  interval = undefined;
   ctx.drawImage(loser, 200, 100, 500, 270);
   //ctx.font = "60px Impact";
   //ctx.fillStyle = "white";
@@ -393,6 +395,17 @@ function reset() {
   score = 0;
   paco.x = 30;
   paco.y = 320;
+  paco.health = 90;
+  paco.vy = 4;
+  paco.width = 110;
+  paco.height = 190;
+  paco.isJumping = false;
+  paco.userPull = 0;
+  paco.image1 = new Image();
+  paco.image1.src = "./img/pacoSprite/paco_1_left.png";
+  paco.image2 = new Image();
+  paco.image2.src = "./img/pacoSprite/paco_1_right.png";
+  paco.imageRun = this.image1;
   audio.currentTime = 8;
   enemies = [];
   interval = undefined;
@@ -416,6 +429,7 @@ function rand(min, max) {
 
 /* Events */
 addEventListener("keydown", function(event) {
+  event.preventDefault();
   /*if (event.keyCode === 40) {
     paco.x = paco.x - 5;
     paco.image1.src = "./img/pacoSprite/paco_down_1.png";
@@ -448,6 +462,7 @@ addEventListener("keydown", function(event) {
     if (paco.x > 33) paco.x -= 35;
   }
   if (event.keyCode === 82) {
+    if (interval) return true;
     reset();
   }
   if (event.keyCode === 32) {
