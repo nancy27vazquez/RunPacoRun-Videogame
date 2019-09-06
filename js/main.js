@@ -24,7 +24,7 @@ const sprite = {
 /* Audio & Effects */
 let audio = new Audio();
 audio.loop = true;
-//audio.src =
+audio.src = "/audio/game.mp3";
 //"https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
 
 let audioIntro = new Audio();
@@ -242,8 +242,8 @@ const back = new Background(canvas.width, canvas.height);
 
 /* Functions */
 function start() {
-  //audio.play();
-  audio.currentTime = 0;
+  audio.play();
+  audio.currentTime = 23;
   if (countBullets == 0) {
     countBullets = 3;
   }
@@ -376,7 +376,7 @@ function drawEnemies() {
 function drawBullets() {}
 
 function gameOver() {
-  //audio.pause();
+  audio.pause();
   clearInterval(interval);
   interval = undefined;
   ctx.drawImage(loser, 200, 100, 500, 270);
