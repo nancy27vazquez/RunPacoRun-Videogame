@@ -3,7 +3,7 @@ var ctx = canvas.getContext("2d");
 
 /* Generic variables*/
 let frames = 0;
-let gravity = 10.1;
+let gravity = 12.1;
 let enemies = [];
 let weapons = [];
 let bullets = [];
@@ -12,7 +12,10 @@ let score = 0;
 let interval;
 let loser = new Image();
 loser.src = "./img/loser.png";
+let winner = new Image();
+winner.src = "./img/knife.png";
 let pineapple = [];
+let lemons = [];
 
 const sprite = {
   enemyKnife: "./img/knife-sprite.png"
@@ -21,13 +24,13 @@ const sprite = {
 /* Audio & Effects */
 let audio = new Audio();
 audio.loop = true;
-audio.src =
-  "https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
+//audio.src =
+//"https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
 
 let audioIntro = new Audio();
 audioIntro.loop = true;
-audioIntro.src =
-  "https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
+//audioIntro.src =
+//"https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
 
 let audioThrowWeapon = new Audio();
 audioIntro.loop = false;
@@ -48,8 +51,8 @@ class Paco {
     this.y = y;
     this.width = 110;
     this.height = 190;
-    this.health = 100;
-    this.vy = 0;
+    this.health = 90;
+    this.vy = 4;
     this.isJumping = false;
     this.userPull = 0;
     // Static
@@ -86,6 +89,11 @@ class Paco {
     if (this.y + this.vy < 0) {
       this.y = 0;
       this.vy = 0;
+    }
+    if (this.health >= 100) {
+      this.image1.src = "./img/key-up.png";
+      this.image2.src = "./img/key-right.png";
+      this.width = 85;
     }
     if (this.health <= 69 && this.health >= 40) {
       this.image1.src = "./img/pacoSprite/paco_2_left.png";
@@ -126,6 +134,21 @@ class Weapon {
     if (frames % 9 === 0 && this.isBullets === false) this.y += 50;
     if (this.isBullets) this.x += 10;
     audioThrowWeapon.play();
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+  }
+}
+
+class Lemon {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.width = 60;
+    this.height = 60;
+    this.image = new Image();
+    this.image.src = "./img/lemon.png";
+  }
+  draw() {
+    if (frames % 9 === 0) this.y += 60;
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 }
@@ -219,7 +242,7 @@ const back = new Background(canvas.width, canvas.height);
 
 /* Functions */
 function start() {
-  audio.play();
+  //audio.play();
   audio.currentTime = 0;
   if (countBullets == 0) {
     countBullets = 3;
@@ -235,6 +258,8 @@ function start() {
     drawEnemies();
     generateWeapons();
     drawWeapons();
+    generateLemons();
+    drawLemons();
     drawBullets();
     getImage();
 
@@ -243,6 +268,9 @@ function start() {
     }
     if (paco.health <= 0) {
       gameOver();
+    }
+    if (score > 149) {
+      youWin();
     }
   }, 1000 / 60);
 }
@@ -272,6 +300,31 @@ function drawWeapons() {
       //bullets.push(new Weapon(paco.x, paco.y, true));
       countBullets++;
       paco.health = paco.health + 10;
+      console.log(paco.health);
+    }
+  });
+}
+
+function generateLemons() {
+  if (frames % 305 == 0) {
+    let position = Math.floor(Math.random() * (canvas.width - 130));
+    var lemon = new Lemon(position, 0);
+    if (lemons.length <= 5) {
+      lemons.push(lemon);
+    }
+  }
+}
+
+function drawLemons() {
+  lemons.forEach(function(lemon) {
+    if (lemon.y + lemon.height > canvas.height) {
+      lemons.splice(0, 1);
+    }
+    lemon.draw();
+
+    if (paco.collision(lemon)) {
+      lemons.splice(0, 1);
+      paco.health = paco.health + 20;
       console.log(paco.health);
     }
   });
@@ -322,13 +375,19 @@ function drawEnemies() {
 function drawBullets() {}
 
 function gameOver() {
-  audio.pause();
+  //audio.pause();
   clearInterval(interval);
   ctx.drawImage(loser, 200, 100, 500, 270);
   //ctx.font = "60px Impact";
   //ctx.fillStyle = "white";
   //ctx.fillText(score, 310, 380);
 }
+
+function youWin() {
+  clearInterval(interval);
+  ctx.drawImage(winner, 200, 100, 500, 270);
+}
+
 function reset() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   score = 0;
@@ -338,6 +397,7 @@ function reset() {
   enemies = [];
   interval = undefined;
   bullets = [];
+  lemons = [];
   countBullets = 0;
   start();
 }

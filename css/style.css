@@ -1,5 +1,5 @@
 body {
-  background: url("./img/pattern.png") #022737;
+  background: url("../img/pattern.png") #022737 repeat repeat;
   margin: 0px;
 }
 h1,
@@ -136,6 +136,11 @@ button:hover {
 .specs {
   display: flex;
   justify-content: space-around;
+}
+.instructions {
+  text-align: center;
+  margin: 20 auto;
+  font-size: 35px;
 }
 .others {
   background-color: red;
