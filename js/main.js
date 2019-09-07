@@ -13,7 +13,7 @@ let interval;
 let loser = new Image();
 loser.src = "./img/loser.png";
 let winner = new Image();
-winner.src = "./img/knife.png";
+winner.src = "./img/winner.png";
 let pineapple = [];
 let lemons = [];
 
@@ -23,8 +23,8 @@ const sprite = {
 
 /* Audio & Effects */
 let audio = new Audio();
-audio.loop = true;
-audio.src = "./audio/game.mp3";
+audio.loop = true; 
+audio.src = "./audio/game.mp3"; 
 
 let audioThrowWeapon = new Audio();
 audioThrowWeapon.loop = false;
@@ -83,12 +83,12 @@ class Paco {
     this.vy = this.vy + (gravity - this.userPull);
     if (this.y + this.vy < 0) {
       this.y = 0;
-      this.vy = 0;
+      this.vy = 0; 
     }
     if (this.health >= 110) {
-      this.image1.src = "./img/key-up.png";
-      this.image2.src = "./img/key-right.png";
-      this.width = 85;
+      this.image1.src = "./img/pacoSprite/paco_1_powerful.png";
+      this.image2.src = "./img/pacoSprite/paco_2_powerful.png";
+      this.width = 144;
     }
     if (this.health <= 69 && this.health >= 40) {
       this.image1.src = "./img/pacoSprite/paco_2_left.png";
@@ -380,7 +380,7 @@ function gameOver() {
   audioLoser.play();
   clearInterval(interval);
   interval = undefined;
-  ctx.drawImage(loser, 200, 100, 500, 270);
+  ctx.drawImage(loser, 100, 50, 700, 378);
   //ctx.font = "60px Impact";
   //ctx.fillStyle = "white";
   //ctx.fillText(score, 310, 380);
@@ -391,9 +391,9 @@ function youWin() {
   audioWinner.play();
   clearInterval(interval);
   interval = undefined;
-  ctx.drawImage(winner, 200, 100, 500, 270);
+  ctx.drawImage(winner, 100, 50, 700, 378);
 }
-
+ 
 function reset() {
   audioLoser.pause();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
