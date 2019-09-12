@@ -13,7 +13,7 @@ let interval;
 let loser = new Image();
 loser.src = "./img/loser.png";
 let winner = new Image();
-winner.src = "./img/knife.png";
+winner.src = "./img/winner.png";
 let pineapple = [];
 let lemons = [];
 
@@ -23,25 +23,19 @@ const sprite = {
 
 /* Audio & Effects */
 let audio = new Audio();
-audio.loop = true;
-audio.src = "/audio/game.mp3";
-//"https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
-
-let audioIntro = new Audio();
-audioIntro.loop = true;
-//audioIntro.src =
-//"https://ia600702.us.archive.org/25/items/FailRecorderMissionImpossibleThemesong/Fail%20Recorder_%20Mission%20Impossible%20Themesong.mp3";
+audio.loop = true; 
+audio.src = "./audio/game.mp3"; 
 
 let audioThrowWeapon = new Audio();
-audio.loop = false;
+audioThrowWeapon.loop = false;
 audioThrowWeapon.src = "./audio/throw.mp3";
 
 let audioLoser = new Audio();
-audio.loop = true;
+audioLoser.loop = false;
 audioLoser.src = "./audio/loser.mp3";
 
 let audioWinner = new Audio();
-audio.loop = false;
+audioWinner.loop = false;
 audioWinner.src = "./audio/winner.mp3";
 
 /* Classes */
@@ -89,12 +83,12 @@ class Paco {
     this.vy = this.vy + (gravity - this.userPull);
     if (this.y + this.vy < 0) {
       this.y = 0;
-      this.vy = 0;
+      this.vy = 0; 
     }
     if (this.health >= 110) {
-      this.image1.src = "./img/key-up.png";
-      this.image2.src = "./img/key-right.png";
-      this.width = 85;
+      this.image1.src = "./img/pacoSprite/paco_1_powerful.png";
+      this.image2.src = "./img/pacoSprite/paco_2_powerful.png";
+      this.width = 144;
     }
     if (this.health <= 69 && this.health >= 40) {
       this.image1.src = "./img/pacoSprite/paco_2_left.png";
@@ -133,8 +127,13 @@ class Weapon {
   }
   draw() {
     if (frames % 9 === 0 && this.isBullets === false) this.y += 50;
-    if (this.isBullets) this.x += 10;
-    audioThrowWeapon.play();
+    //if (this.isBullets) this.x += 10;
+    if (this.isBullets){
+      audioThrowWeapon.play();
+      this.x += 10;
+      console.log("yapude");
+    }
+    //audioThrowWeapon.play();
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 }
@@ -271,7 +270,7 @@ function start() {
     if (paco.health <= 0) {
       gameOver();
     }
-    if (score > 120) {
+    if (score > 99) {
       youWin();
     }
   }, 1000 / 60);
@@ -381,7 +380,7 @@ function gameOver() {
   audioLoser.play();
   clearInterval(interval);
   interval = undefined;
-  ctx.drawImage(loser, 200, 100, 500, 270);
+  ctx.drawImage(loser, 100, 50, 700, 378);
   //ctx.font = "60px Impact";
   //ctx.fillStyle = "white";
   //ctx.fillText(score, 310, 380);
@@ -392,9 +391,9 @@ function youWin() {
   audioWinner.play();
   clearInterval(interval);
   interval = undefined;
-  ctx.drawImage(winner, 200, 100, 500, 270);
+  ctx.drawImage(winner, 100, 50, 700, 378);
 }
-
+ 
 function reset() {
   audioLoser.pause();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -447,6 +446,9 @@ addEventListener("keydown", function(event) {
   if (event.keyCode === 87) {
     youWin();
   }
+  if (event.keyCode === 76) {
+    gameOver();
+  } 
   if (event.keyCode === 38 && event.keyCode === 37) {
     paco.x = paco.x - 30;
     paco.y = paco.y - 30;
@@ -472,6 +474,9 @@ addEventListener("keydown", function(event) {
   }
   if (event.keyCode === 82) {
     if (interval) return true;
+    audioThrowWeapon.pause();
+    audioLoser.pause();
+    audioWinner.pause();
     reset();
   }
   if (event.keyCode === 32) {

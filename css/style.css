@@ -89,7 +89,8 @@ canvas {
 }
 button,
 button a {
-  background: url("./img/start-bg.png") center center no-repeat;
+  background: url("../img/start-bg.png") center no-repeat;
+  background-size: contain;
   font-size: 40px;
   border: none;
   color: white;
