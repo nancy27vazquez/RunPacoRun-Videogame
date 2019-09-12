@@ -31,7 +31,6 @@ header {
   justify-content: space-around;
   align-items: center;
   padding: 15px;
-  padding-bottom: 5px;
   max-width: 1200px;
   width: 80%;
   margin: 0 auto;
@@ -42,7 +41,7 @@ header {
   justify-content: center;
 }
 .logo img {
-  height: 80px;
+  height: 105px;
 }
 #weapons,
 #score {
