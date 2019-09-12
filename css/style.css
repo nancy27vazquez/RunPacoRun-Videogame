@@ -30,7 +30,8 @@ header {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
+  padding-bottom: 5px;
   max-width: 1200px;
   width: 80%;
   margin: 0 auto;
@@ -41,7 +42,7 @@ header {
   justify-content: center;
 }
 .logo img {
-  height: 120px;
+  height: 80px;
 }
 #weapons,
 #score {
@@ -59,8 +60,8 @@ canvas {
   border-radius: 20px;
   border: 6px solid #022737;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
-  margin-top: 40px;
-  width: 80%;
+  margin-top: 10px;
+  width: 60%;
 }
 .container {
   max-width: 1300px;
@@ -82,7 +83,7 @@ canvas {
 
 /* Index section styles */
 .index img {
-  width: 550px;
+  width: 400px;
   margin-top: 10%;
   height: auto;
 }
@@ -93,7 +94,7 @@ button a {
   border: none;
   color: white;
   text-decoration: none;
-  margin-top: 10%;
+  margin-top: 5%;
   font-family: "Caveat Brush", cursive;
   font-weight: lighter;
 }
@@ -128,10 +129,10 @@ button:hover {
   margin-left: 100px;
 }
 .mb-lg {
-  margin-bottom: 70px;
+  margin-bottom: 40px;
 }
 .mt-lg {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 .specs {
   display: flex;
@@ -140,14 +141,14 @@ button:hover {
 .instructions {
   text-align: center;
   margin: 20 auto;
-  font-size: 35px;
+  font-size: 30px;
 }
 .others {
   background-color: red;
   background-color: #044c6b59;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  padding: 40px;
+  padding: 30px;
   text-align: center;
   font-size: 24px;
   width: 30%;
@@ -155,6 +156,8 @@ button:hover {
 }
 .others p {
   margin-top: 5px;
+  font-size: 18px;
+  margin-bottom: 0px;
 }
 /* Game section styles */
 #restart {
@@ -177,7 +180,7 @@ button:hover {
 }
 
 .keys {
-  width: 70px;
+  width: 50px;
   border-radius: 10px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
 }
